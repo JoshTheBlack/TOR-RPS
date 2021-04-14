@@ -29,14 +29,28 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let i;
-    for (i = 0; i < 5; i++) {
-        let playerSelection = prompt();
-        let computerSelection = computerPlay();
-        let result = playRound(playerSelection, computerSelection);
-        console.log(result)
-    }
-    console.log("Final score:\nYou: " + playerScore +"\nComputer: " + computerScore)
+function resetScores() {
+    playerScore = 0
+    computerScore = 0
 }
 
+const buttons = document.querySelectorAll('button');
+const resultDiv = document.querySelector("#result");
+const tally = document.querySelector("#tally");
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        let comp = computerPlay();
+        result = playRound(button.id, comp);
+        resultDiv.textContent = result
+        if (playerScore === 5) {
+            tally.textContent = "Player Score: " + playerScore + " You won!   Computer Score: " + computerScore
+            resetScores()
+        }else if (computerScore === 5) {
+            tally.textContent = "Player Score: " + playerScore + " You've lost!   Computer Score: " + computerScore
+            resetScores()
+        } else {
+            tally.textContent = "Player Score: " + playerScore + "   Computer Score: " + computerScore
+        }
+    });
+});
